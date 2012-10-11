@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:axis2="http://ws/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://ws" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://ws/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ws/">
+    <wsdl:documentation>GeoTrackerService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema xmlns:ax22="http://ws/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws">
+            <xs:import namespace="http://ws/xsd"/>
+            <xs:element name="setRelease">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="release" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="setReleaseResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getNumbersResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getReleaseResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getIds">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="pass" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getIdsResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getNamesResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getLastPosition">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="id" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getLastPositionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax22:PositionLog"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getPositions">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="id" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="minDate" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="maxDate" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="maxResponse" type="xs:int"/>
+                        <xs:element minOccurs="0" name="OnlyMovingPositions" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getPositionsResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="ax22:PositionLog"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getMaxSpeed">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="id" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getMaxSpeedResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax22:SpeedLog"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws/xsd">
+            <xs:complexType name="PositionLog">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="altitude" type="xs:int"/>
+                    <xs:element minOccurs="0" name="date" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="dateString" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="heading" type="xs:int"/>
+                    <xs:element minOccurs="0" name="id" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="latitude" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="longitude" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="speed" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SpeedLog">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="date" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="dateString" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="speed" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getIdsRequest">
+        <wsdl:part name="parameters" element="ns:getIds"/>
+    </wsdl:message>
+    <wsdl:message name="getIdsResponse">
+        <wsdl:part name="parameters" element="ns:getIdsResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getPositionsRequest">
+        <wsdl:part name="parameters" element="ns:getPositions"/>
+    </wsdl:message>
+    <wsdl:message name="getPositionsResponse">
+        <wsdl:part name="parameters" element="ns:getPositionsResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getMaxSpeedRequest">
+        <wsdl:part name="parameters" element="ns:getMaxSpeed"/>
+    </wsdl:message>
+    <wsdl:message name="getMaxSpeedResponse">
+        <wsdl:part name="parameters" element="ns:getMaxSpeedResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getReleaseRequest"/>
+    <wsdl:message name="getReleaseResponse">
+        <wsdl:part name="parameters" element="ns:getReleaseResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getLastPositionRequest">
+        <wsdl:part name="parameters" element="ns:getLastPosition"/>
+    </wsdl:message>
+    <wsdl:message name="getLastPositionResponse">
+        <wsdl:part name="parameters" element="ns:getLastPositionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getNumbersRequest"/>
+    <wsdl:message name="getNumbersResponse">
+        <wsdl:part name="parameters" element="ns:getNumbersResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getNamesRequest"/>
+    <wsdl:message name="getNamesResponse">
+        <wsdl:part name="parameters" element="ns:getNamesResponse"/>
+    </wsdl:message>
+    <wsdl:message name="setReleaseRequest">
+        <wsdl:part name="parameters" element="ns:setRelease"/>
+    </wsdl:message>
+    <wsdl:message name="setReleaseResponse">
+        <wsdl:part name="parameters" element="ns:setReleaseResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="GeoTrackerServicePortType">
+        <wsdl:operation name="getIds">
+            <wsdl:input message="axis2:getIdsRequest" wsaw:Action="urn:getIds"/>
+            <wsdl:output message="axis2:getIdsResponse" wsaw:Action="urn:getIdsResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getPositions">
+            <wsdl:input message="axis2:getPositionsRequest" wsaw:Action="urn:getPositions"/>
+            <wsdl:output message="axis2:getPositionsResponse" wsaw:Action="urn:getPositionsResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getMaxSpeed">
+            <wsdl:input message="axis2:getMaxSpeedRequest" wsaw:Action="urn:getMaxSpeed"/>
+            <wsdl:output message="axis2:getMaxSpeedResponse" wsaw:Action="urn:getMaxSpeedResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRelease">
+            <wsdl:input message="axis2:getReleaseRequest" wsaw:Action="urn:getRelease"/>
+            <wsdl:output message="axis2:getReleaseResponse" wsaw:Action="urn:getReleaseResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getLastPosition">
+            <wsdl:input message="axis2:getLastPositionRequest" wsaw:Action="urn:getLastPosition"/>
+            <wsdl:output message="axis2:getLastPositionResponse" wsaw:Action="urn:getLastPositionResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getNumbers">
+            <wsdl:input message="axis2:getNumbersRequest" wsaw:Action="urn:getNumbers"/>
+            <wsdl:output message="axis2:getNumbersResponse" wsaw:Action="urn:getNumbersResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getNames">
+            <wsdl:input message="axis2:getNamesRequest" wsaw:Action="urn:getNames"/>
+            <wsdl:output message="axis2:getNamesResponse" wsaw:Action="urn:getNamesResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="setRelease">
+            <wsdl:input message="axis2:setReleaseRequest" wsaw:Action="urn:setRelease"/>
+            <wsdl:output message="axis2:setReleaseResponse" wsaw:Action="urn:setReleaseResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="GeoTrackerServiceSoap11Binding" type="axis2:GeoTrackerServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getIds">
+            <soap:operation soapAction="urn:getIds" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getPositions">
+            <soap:operation soapAction="urn:getPositions" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getMaxSpeed">
+            <soap:operation soapAction="urn:getMaxSpeed" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRelease">
+            <soap:operation soapAction="urn:getRelease" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getLastPosition">
+            <soap:operation soapAction="urn:getLastPosition" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNumbers">
+            <soap:operation soapAction="urn:getNumbers" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNames">
+            <soap:operation soapAction="urn:getNames" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="setRelease">
+            <soap:operation soapAction="urn:setRelease" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="GeoTrackerServiceSoap12Binding" type="axis2:GeoTrackerServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getIds">
+            <soap12:operation soapAction="urn:getIds" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getPositions">
+            <soap12:operation soapAction="urn:getPositions" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getMaxSpeed">
+            <soap12:operation soapAction="urn:getMaxSpeed" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRelease">
+            <soap12:operation soapAction="urn:getRelease" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getLastPosition">
+            <soap12:operation soapAction="urn:getLastPosition" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNumbers">
+            <soap12:operation soapAction="urn:getNumbers" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNames">
+            <soap12:operation soapAction="urn:getNames" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="setRelease">
+            <soap12:operation soapAction="urn:setRelease" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="GeoTrackerServiceHttpBinding" type="axis2:GeoTrackerServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="getIds">
+            <http:operation location="GeoTrackerService/getIds"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getIds"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getIds"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getPositions">
+            <http:operation location="GeoTrackerService/getPositions"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getPositions"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getPositions"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getMaxSpeed">
+            <http:operation location="GeoTrackerService/getMaxSpeed"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getMaxSpeed"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getMaxSpeed"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRelease">
+            <http:operation location="GeoTrackerService/getRelease"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getRelease"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getRelease"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getLastPosition">
+            <http:operation location="GeoTrackerService/getLastPosition"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getLastPosition"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getLastPosition"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNumbers">
+            <http:operation location="GeoTrackerService/getNumbers"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getNumbers"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getNumbers"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNames">
+            <http:operation location="GeoTrackerService/getNames"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getNames"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getNames"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="setRelease">
+            <http:operation location="GeoTrackerService/setRelease"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="setRelease"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="setRelease"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="GeoTrackerService">
+        <wsdl:port name="GeoTrackerServiceHttpSoap11Endpoint" binding="axis2:GeoTrackerServiceSoap11Binding">
+            <soap:address location="http://cube.toutophone.com:8080/axis2/services/GeoTrackerService.GeoTrackerServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="GeoTrackerServiceHttpSoap12Endpoint" binding="axis2:GeoTrackerServiceSoap12Binding">
+            <soap12:address location="http://cube.toutophone.com:8080/axis2/services/GeoTrackerService.GeoTrackerServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="GeoTrackerServiceHttpEndpoint" binding="axis2:GeoTrackerServiceHttpBinding">
+            <http:address location="http://cube.toutophone.com:8080/axis2/services/GeoTrackerService.GeoTrackerServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
