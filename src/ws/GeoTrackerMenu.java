@@ -1,5 +1,8 @@
 package ws;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
@@ -39,8 +42,28 @@ public class GeoTrackerMenu
 		compDateDebut.setLayout(new GridLayout(2, true));
 		Label dateDebutLabel = new Label(compDateDebut, SWT.NONE);
 		dateDebutLabel.setText("Date initiale: ");
+		DateTime dateDebut = new DateTime(compDateDebut, SWT.NONE);
+		dateDebut.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		Calendar today = Calendar.getInstance();
+		dateDebut.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)-1);
+		
+		// Init date fin
+		Composite compDateFin = new Composite(compDate, SWT.BORDER);
+		compDateFin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compDateFin.setLayout(new GridLayout(2, true));
+		Label dateFinLabel = new Label(compDateFin, SWT.NONE);
+		dateFinLabel.setText("Date finale: ");
+		DateTime dateFin = new DateTime(compDateFin, SWT.NONE);
+		dateFin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		dateFin.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
 	}
 	
+	/**
+	 * 
+	 * @param parent
+	 * @param numCol
+	 * @return
+	 */
 	protected Composite newLine(Composite parent, int numCol) {
 		Composite newLine = new Composite(parent, SWT.BORDER);
 		newLine.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -54,7 +77,7 @@ public class GeoTrackerMenu
 		Label idLabel = new Label(parent, SWT.NONE);
 		idLabel.setText("ID: ");
 		Combo idCombo = new Combo(parent, SWT.NONE);
-		idCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));		
+		idCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		// Exemple d'utilisation
 		String[] items = {"Item1","Item2"};
 		idCombo.setItems(items);
