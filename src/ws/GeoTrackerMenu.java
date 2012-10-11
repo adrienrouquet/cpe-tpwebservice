@@ -34,32 +34,12 @@ public class GeoTrackerMenu
 		initPoints(compPoints);
 		
 		// Ligne 2: Date debut et fin
-		Composite compDate = newLine(parent, 2);
-		
-		// Init date debut
-		Composite compDateDebut = new Composite(compDate, SWT.BORDER);
-		compDateDebut.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compDateDebut.setLayout(new GridLayout(2, true));
-		Label dateDebutLabel = new Label(compDateDebut, SWT.NONE);
-		dateDebutLabel.setText("Date initiale: ");
-		DateTime dateDebut = new DateTime(compDateDebut, SWT.NONE);
-		dateDebut.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		Calendar today = Calendar.getInstance();
-		dateDebut.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)-1);
-		
-		// Init date fin
-		Composite compDateFin = new Composite(compDate, SWT.BORDER);
-		compDateFin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compDateFin.setLayout(new GridLayout(2, true));
-		Label dateFinLabel = new Label(compDateFin, SWT.NONE);
-		dateFinLabel.setText("Date finale: ");
-		DateTime dateFin = new DateTime(compDateFin, SWT.NONE);
-		dateFin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		dateFin.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+		Composite compDate = newLine(parent, 4);
+		initDateDebutFin(compDate);
 	}
 	
 	/**
-	 * 
+	 * Nouvelle ligne d'interface
 	 * @param parent
 	 * @param numCol
 	 * @return
@@ -71,6 +51,10 @@ public class GeoTrackerMenu
 		return newLine;
 	}
 	
+	/**
+	 * Init ID
+	 * @param parent
+	 */
 	protected void initId(Composite parent) {
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.setLayout(new GridLayout(2, true));
@@ -84,6 +68,10 @@ public class GeoTrackerMenu
 		idCombo.add("Item3");
 	}
 	
+	/**
+	 * Init points max
+	 * @param parent
+	 */
 	protected void initPoints(Composite parent) {
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.setLayout(new GridLayout(2, true));
@@ -93,6 +81,30 @@ public class GeoTrackerMenu
 		// Exemple d'utilisation
 		pointsSpinner.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		pointsSpinner.setValues(1000, 1, 100000, 0, 1, 100);
+	}
+	
+	/**
+	 * Init choix date début et fin
+	 * @param parent
+	 */
+	protected void initDateDebutFin(Composite parent) {
+		
+		// Init date debut
+		Label dateDebutLabel = new Label(parent, SWT.NONE);
+		dateDebutLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true));
+		dateDebutLabel.setText("Date initiale: ");
+		DateTime dateDebut = new DateTime(parent, SWT.NONE);
+		dateDebut.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		Calendar today = Calendar.getInstance();
+		dateDebut.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)-1);
+		
+		// Init date fin
+		Label dateFinLabel = new Label(parent, SWT.NONE);
+		dateFinLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true));
+		dateFinLabel.setText("Date finale: ");
+		DateTime dateFin = new DateTime(parent, SWT.NONE);
+		dateFin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		dateFin.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
 	}
 
 }
