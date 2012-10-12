@@ -29,10 +29,11 @@ public class GeoTrackerMenu
 	
 	public GeoTrackerMenu(Composite parent) throws RemoteException 
 	{
-		initLayout(parent);
+		
 		
 		LocGetIds myIds = new LocGetIds();	
 		_ids = myIds.show();
+		initLayout(parent);
 	}
 	
 	public void initLayout(Composite parent) throws RemoteException
