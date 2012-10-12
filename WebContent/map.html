@@ -25,19 +25,21 @@
     <script type="text/javascript">
 
     var map = null;
-    var myPoints = [];
-    var bounds = new GLatLngBounds();
+    var myPoints = null;
+    var bounds = null;
     var geocoder = null;
 
     //This function creates the google map
     function initialize() {
       if (GBrowserIsCompatible()) {
-        map = new GMap2(document.getElementById("map_canvas"));
-    //Testing points
-    myPoints.push( new GLatLng(48.8566667, 2.3509871)); // Paris
-    myPoints.push( new GLatLng(48.8123155, 2.2381535)); // Meudon
-    myPoints.push( new GLatLng(48.3906042, -4.4869013)); // Brest
-    myPoints.push( new GLatLng(50.6371834, 3.0630174)); // Lille
+	    bounds = new GLatLngBounds();
+	    myPoints    = [];
+	    map = new GMap2(document.getElementById("map_canvas"));
+	    //Testing points
+	    myPoints.push( new GLatLng(48.8566667, 2.3509871)); // Paris
+	    myPoints.push( new GLatLng(48.8123155, 2.2381535)); // Meudon
+	    myPoints.push( new GLatLng(48.3906042, -4.4869013)); // Brest
+	    myPoints.push( new GLatLng(50.6371834, 3.0630174)); // Lille
 
       }
     }
@@ -46,6 +48,19 @@
     function pushPoint(lat,lng) {
     
     myPoints.push( new GLatLng(lat, lng));
+    
+    }
+    
+  //This function will be called from the Java application to reset the map
+    function resetMap() {
+    
+    myPoints    = null;
+    
+    bounds      = null;
+    
+    map         = null;
+    
+    initialize();
     
     }
     
