@@ -18,6 +18,19 @@ public class LocGetPositions {
      * @param args
      * @throws RemoteException
      */
+	
+	public int getNumberOfPoints()
+	{
+		int result = 0;
+		
+		if (_points != null)
+		{
+			result = _points.length;
+		}
+		
+		return result;
+	}
+	
     public LocGetPositions( String pId , String pMinDate, String pMaxDate, int pMaxResponse) throws RemoteException
     {
     	_iD = pId;

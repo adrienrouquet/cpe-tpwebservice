@@ -158,6 +158,7 @@ public class GeoTrackerMenu
 				try
 				{
 					LocGetPositions myPositions = new LocGetPositions(_selId, _selMinDate, _selMaxDate, _selMaxResponse);
+					fillTable(myPositions.getNumberOfPoints());
 				}
 				catch (RemoteException e)
 				{
@@ -166,6 +167,11 @@ public class GeoTrackerMenu
 				}
 			}
 		});
+	}
+	
+	private void fillTable(int nb)
+	{
+		
 	}
 	
 	private void initTab(Composite parent) {
