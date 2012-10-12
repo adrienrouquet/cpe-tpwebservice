@@ -8,6 +8,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
+import ws.GeoTrackerServiceStub.PositionLog;
+
 
 public class GeoTrackerMenu 
 {
@@ -17,6 +19,7 @@ public class GeoTrackerMenu
 	private Spinner _maxResponseLabel = null;
 	private Text _minDate = null;
 	private Text _maxDate = null;
+	private Table _table = null;
 	
 	private String[] _ids = null;
 	private String _selId = null;
@@ -58,7 +61,7 @@ public class GeoTrackerMenu
 		
 		// Line 4: Tableau
 		Composite compTab = newLine(parent, 1);
-		initTab(compTab);
+		_table = initTab(compTab);
 	}
 	
 	/**
@@ -158,7 +161,7 @@ public class GeoTrackerMenu
 				try
 				{
 					LocGetPositions myPositions = new LocGetPositions(_selId, _selMinDate, _selMaxDate, _selMaxResponse);
-					fillTable(myPositions.getNumberOfPoints());
+					fillTable(_table, myPositions);
 				}
 				catch (RemoteException e)
 				{
@@ -169,12 +172,36 @@ public class GeoTrackerMenu
 		});
 	}
 	
-	private void fillTable(int nb)
+	private void fillTable(Table table, LocGetPositions positions)
 	{
-		
+		if (positions != null)
+		{
+			int bound = positions.getNumberOfPoints();
+			
+			for(int i = 0; i < Math.min(bound, _selMaxResponse); i++)
+			{
+				TableItem tabItem = new TableItem(table, SWT.BORDER);
+				// No
+				tabItem.setText(0, String.valueOf(i));
+				// Latitude
+				tabItem.setText(1, String.valueOf(positions.latitude(i)));
+				// Longitude
+				tabItem.setText(2, String.valueOf(positions.longitude(i)));
+				//Speed
+				tabItem.setText(3, String.valueOf(positions.speed(i)));
+				// Heading
+				tabItem.setText(4, String.valueOf(positions.heading(i)));
+				// Date
+				tabItem.setText(6, positions.date(i));
+			}
+		}
+//				
+//		for (int i=0; i<titles.length; i++) {
+//			table.getColumn(i).pack();
+//		}
 	}
 	
-	private void initTab(Composite parent) {
+	private Table initTab(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setLinesVisible (true);
@@ -184,31 +211,10 @@ public class GeoTrackerMenu
 		for (int i=0; i < titles.length; i++) {
 			TableColumn column = new TableColumn (table, SWT.NONE);
 			column.setText (titles [i]);
+			column.setMoveable(false);
+			column.setResizable(true);
 		}
 		
-		// Add DATA HERE !!!
-		if (_ids != null && _ids.length > 0) {
-			for (int i = 0; i < _ids.length; i++) {
-				TableItem tabItem = new TableItem(table, SWT.BORDER);
-				// No
-				tabItem.setText(0, String.valueOf(i));
-				// Latitude
-				tabItem.setText(1, "PUT_DATAS_HERE");
-				// Longitude
-				tabItem.setText(2, "PUT_DATAS_HERE");
-				//Speed
-				tabItem.setText(3, "PUT_DATAS_HERE");
-				// Heading
-				tabItem.setText(4, "PUT_DATAS_HERE");
-				// Heading
-				tabItem.setText(5, "PUT_DATAS_HERE");
-				// Date
-				tabItem.setText(6, "PUT_DATAS_HERE");
-			}
-		}
-		
-		for (int i=0; i<titles.length; i++) {
-			table.getColumn(i).pack();
-		}
+		return table;
 	}
 }
