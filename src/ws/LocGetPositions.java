@@ -44,32 +44,70 @@ public class LocGetPositions {
         GetPositionsResponse rPositions = new GetPositionsResponse();
         rPositions = stub.getPositions(positions);
 
-        _points = rPositions.get_return();
+        if (rPositions != null)
+        {
+        	_points = rPositions.get_return();
+        } 
     }
     
     public double latitude(int pointNumber)
     {
-    	PositionLog myPoint = _points[pointNumber];  	
-    	return myPoint.getLatitude();
+    	double result = 0;
+    	
+    	if ((_points != null) && (_points.length > pointNumber))
+    	{
+    		PositionLog myPoint = _points[pointNumber];  	
+        	result = myPoint.getLatitude();
+    	}
+    	
+    	return result;
     }
     public double longitude(int pointNumber)
     {
-    	PositionLog myPoint = _points[pointNumber];
-    	return myPoint.getLongitude();
+    	double result = 0;
+    	
+    	if ((_points != null) && (_points.length > pointNumber))
+    	{
+    		PositionLog myPoint = _points[pointNumber];
+        	result = myPoint.getLongitude();
+    	}
+    	
+    	return result;
     }
     public int speed(int pointNumber)
     {
-    	PositionLog myPoint = _points[pointNumber];
-    	return myPoint.getSpeed();
+    	int result = 0;
+    	
+    	if ((_points != null) && (_points.length > pointNumber))
+    	{
+    		PositionLog myPoint = _points[pointNumber];
+        	result = myPoint.getSpeed();  
+    	}
+    	
+    	return result;
     }
     public int heading(int pointNumber)
     {
-    	PositionLog myPoint = _points[pointNumber];
-    	return myPoint.getHeading();
+    	int result = 0;
+    	
+    	if ((_points != null) && (_points.length > pointNumber))
+    	{
+    		PositionLog myPoint = _points[pointNumber];
+    		result = myPoint.getHeading();
+    	}
+    	
+    	return result;
     }
     public String date(int pointNumber)
     {
-    	PositionLog myPoint = _points[pointNumber];
-    	return myPoint.getDateString();
+    	String result = null;
+    	
+    	if ((_points != null) && (_points.length > pointNumber))
+    	{
+	    	PositionLog myPoint = _points[pointNumber];
+	    	result = myPoint.getDateString();
+    	}
+    	
+    	return result;
     }
 }
