@@ -49,6 +49,14 @@ public class GeoTrackerMenu
 		// Ligne 2: Date debut et fin
 		Composite compDate = newLine(parent, 4);
 		initDateDebutFin(compDate);
+		
+		// Line 3: Valid, selecteur de date, geoloc
+		Composite compValid = newLine(parent, 3);
+		initValidButton(compValid);
+		
+		// Line 4: Tableau
+		Composite compTab = newLine(parent, 1);
+		initTab(compTab);
 	}
 	
 	/**
@@ -80,13 +88,7 @@ public class GeoTrackerMenu
 		// Plug to GUI
 		if (getIds() != null)
 		{
-			for(int i = 0; i < getIds().length; i++)
-			{
-				if (getIds()[i] != null)
-				{
-					idCombo.add(getIds()[i]);
-				}	
-			}
+			idCombo.setItems(getIds());
 		}
 	}
 	
@@ -115,18 +117,49 @@ public class GeoTrackerMenu
 		Label dateDebutLabel = new Label(parent, SWT.NONE);
 		dateDebutLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true));
 		dateDebutLabel.setText("Date initiale: ");
+		// TODO date -> String
 		DateTime dateDebut = new DateTime(parent, SWT.NONE);
 		dateDebut.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Calendar today = Calendar.getInstance();
 		dateDebut.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)-1);
+		dateDebut.setTime(0, 0, 0);
 		
 		// Init date fin
 		Label dateFinLabel = new Label(parent, SWT.NONE);
 		dateFinLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true));
 		dateFinLabel.setText("Date finale: ");
+		// TODO date -> String
 		DateTime dateFin = new DateTime(parent, SWT.NONE);
 		dateFin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dateFin.setDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+		dateFin.setTime(today.get(Calendar.HOUR), today.get(Calendar.MINUTE), today.get(Calendar.SECOND));
+	}
+	
+	protected void initValidButton(Composite parent) {
+		Button validButton = new Button(parent, SWT.PUSH);
+		validButton.setText("OK");
+		
+		// TODO CREER L'ACTION CORRESPONDANTE
 	}
 
+	private void initTab(Composite parent) {
+		Table table = new Table(parent, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		table.setLinesVisible (true);
+		table.setHeaderVisible (true);
+		
+		String[] titles = {"No", "Latitude", "Longitude", "Speed", "Heading", "Date"};
+		for (int i=0; i<titles.length; i++) {
+			TableColumn column = new TableColumn (table, SWT.NONE);
+			column.setText (titles [i]);
+		}
+		
+		
+		/*
+		TableItem tabItem = new TableItem(table, SWT.BORDER_DASH);
+		String[] test = { "item1", "item2", "item3" };
+		tabItem.setText(test);
+		*/
+		
+	}
 }
