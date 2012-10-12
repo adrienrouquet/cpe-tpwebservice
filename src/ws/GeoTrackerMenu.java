@@ -13,6 +13,7 @@ import ws.GeoTrackerServiceStub.PositionLog;
 
 public class GeoTrackerMenu 
 {
+	private Composite _shell = null;
 	private Display _display = Display.getCurrent();
 	
 	private Combo _idCombo = null;
@@ -29,10 +30,12 @@ public class GeoTrackerMenu
 	
 	public GeoTrackerMenu(Composite parent) throws RemoteException 
 	{
+		_shell = parent;
+		
 		LocGetIds myIds = new LocGetIds();	
 		_ids = myIds.show();
 		
-		initLayout(parent);
+		initLayout(_shell);
 	}
 	
 	public void initLayout(Composite parent) throws RemoteException
@@ -44,24 +47,28 @@ public class GeoTrackerMenu
 		
 		// Init ID
 		Composite compId = new Composite(compIdAndPoints, SWT.NONE);
-		_idCombo = initId(compId);
+		initId(compId);
 		
 		// Init Points
 		Composite compPoints = new Composite(compIdAndPoints, SWT.NONE);
-		_maxResponseLabel = initPoints(compPoints);
+		initPoints(compPoints);
 		
 		// Ligne 2: Date debut et fin
 		Composite compDate = newLine(parent, 4);
-		_minDate = initMinDate(compDate);
-		_maxDate = initMaxDate(compDate);
+		initMinDate(compDate);
+		initMaxDate(compDate);
 		
 		// Line 3: Valid, selecteur de date, geoloc
 		Composite compValid = newLine(parent, 3);
 		initValidButton(compValid);
 		
 		// Line 4: Tableau
+		-----------------------------------------------
+		
+		
 		Composite compTab = newLine(parent, 1);
-		_table = initTab(compTab);
+		compTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		initTab(compTab);
 	}
 	
 	/**
@@ -82,67 +89,59 @@ public class GeoTrackerMenu
 	 * @param parent
 	 * @throws RemoteException 
 	 */
-	protected Combo initId(Composite parent) throws RemoteException {
+	protected void initId(Composite parent) throws RemoteException {
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.setLayout(new GridLayout(2, true));
 		Label idLabel = new Label(parent, SWT.NONE);
 		idLabel.setText("ID: ");
-		Combo idCombo = new Combo(parent, SWT.NONE);
-		idCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		_idCombo = new Combo(parent, SWT.NONE);
+		_idCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		// Plug to GUI
 		if (_ids != null)
 		{
-			idCombo.setItems(_ids);
+			_idCombo.setItems(_ids);
 		}
-		
-		return idCombo;
 	}
 	
 	/**
 	 * Init points max
 	 * @param parent
 	 */
-	protected Spinner initPoints(Composite parent) {
+	protected void initPoints(Composite parent) {
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.setLayout(new GridLayout(2, true));
 		Label pointsLabel = new Label(parent, SWT.NONE);
 		pointsLabel.setText("Nb max points: ");
-		Spinner pointsSpinner = new Spinner(parent, SWT.BORDER);
-		// Exemple d'utilisation
-		pointsSpinner.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		pointsSpinner.setValues(1000, 1, 100000, 0, 1, 100);
 		
-		return pointsSpinner;
+		_maxResponseLabel = new Spinner(parent, SWT.BORDER);
+		_maxResponseLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		_maxResponseLabel.setValues(1000, 1, 100000, 0, 1, 100);
 	}
 	
 	/**
 	 * Init choix date début et fin
 	 * @param parent
 	 */
-	protected Text initMinDate(Composite parent) {
+	protected void initMinDate(Composite parent) {
 		
 		// Init date debut
 		Label minDateLabel = new Label(parent, SWT.NONE);
 		minDateLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true));
 		minDateLabel.setText("Date initiale: ");
 		
-		Text minDate = new Text(parent,SWT.NONE);
-		minDate.setText("28/03/2008:00:00:00");
-		
-		return minDate;
+		_minDate = new Text(parent,SWT.NONE);
+		_minDate.setText("28/03/2008:00:00:00");
 	}
 	
-	protected Text initMaxDate(Composite parent)
+	protected void initMaxDate(Composite parent)
 	{
 		Label maxDateLabel = new Label(parent, SWT.NONE);
 		maxDateLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true));
 		maxDateLabel.setText("Date finale: ");
 
-		Text maxDate = new Text(parent,SWT.NONE);
-		maxDate.setText("30/03/2008:23:59:59");
-		
-		return maxDate;
+		_maxDate = new Text(parent,SWT.NONE);
+		_maxDate.setText("30/03/2008:23:59:59");
 	}
 	
 	protected void initValidButton(Composite parent) {
@@ -161,7 +160,7 @@ public class GeoTrackerMenu
 				try
 				{
 					LocGetPositions myPositions = new LocGetPositions(_selId, _selMinDate, _selMaxDate, _selMaxResponse);
-					fillTable(_table, myPositions);
+					fillTable(myPositions);
 				}
 				catch (RemoteException e)
 				{
@@ -172,17 +171,20 @@ public class GeoTrackerMenu
 		});
 	}
 	
-	private void fillTable(Table table, LocGetPositions positions)
+	private void fillTable(LocGetPositions positions)
 	{
-		if (positions != null)
+		_table.clearAll();
+		_table.removeAll();
+		
+		if ((positions != null) && (positions.getNumberOfPoints() > 0))
 		{
 			int bound = positions.getNumberOfPoints();
-			
+					
 			for(int i = 0; i < Math.min(bound, _selMaxResponse); i++)
 			{
-				TableItem tabItem = new TableItem(table, SWT.BORDER);
+				TableItem tabItem = new TableItem(_table, SWT.BORDER);
 				// No
-				tabItem.setText(0, String.valueOf(i));
+				tabItem.setText(0, String.valueOf(i + 1));
 				// Latitude
 				tabItem.setText(1, String.valueOf(positions.latitude(i)));
 				// Longitude
@@ -192,29 +194,40 @@ public class GeoTrackerMenu
 				// Heading
 				tabItem.setText(4, String.valueOf(positions.heading(i)));
 				// Date
-				tabItem.setText(6, positions.date(i));
+				tabItem.setText(5, positions.date(i));	
+			}
+				
+			for (int j=0; j<_table.getColumnCount(); j++) 
+			{
+				_table.getColumn(j).pack();
 			}
 		}
-//				
-//		for (int i=0; i<titles.length; i++) {
-//			table.getColumn(i).pack();
-//		}
 	}
 	
-	private Table initTab(Composite parent) {
-		Table table = new Table(parent, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		table.setLinesVisible (true);
-		table.setHeaderVisible (true);
+	private void initTab(Composite parent) {
+		_table = new Table(parent, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+		_table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		_table.setLinesVisible (true);
+		_table.setHeaderVisible (true);
+		
+		initColumns();
+	}
+	
+	private void initColumns()
+	{
+//		if (_table.getColumnCount() != 0)
+//		{
+//			
+//		}
 		
 		String[] titles = {"No", "Latitude", "Longitude", "Speed", "Heading", "Date"};
-		for (int i=0; i < titles.length; i++) {
-			TableColumn column = new TableColumn (table, SWT.NONE);
+		for (int i=0; i < titles.length; i++)
+		{
+			TableColumn column = new TableColumn (_table, SWT.NONE);
 			column.setText (titles [i]);
 			column.setMoveable(false);
 			column.setResizable(true);
+			column.pack();
 		}
-		
-		return table;
 	}
 }

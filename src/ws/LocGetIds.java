@@ -17,7 +17,6 @@ public class LocGetIds {
 	
 	public String[] show() throws RemoteException 
 	{
-		System.out.println("Retrieving Location IDs");
 		// TODO Auto-generated method stub
 		// objet stub pour acceder au web service 
 		GeoTrackerServiceStub stub = new GeoTrackerServiceStub();
