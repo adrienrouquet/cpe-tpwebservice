@@ -7,16 +7,15 @@ import ws.GeoTrackerServiceStub.GetIdsResponse;
 
 public class LocGetIds {
 
-	private string[] myIDs;
 	/**
 	 * @param args
 	 * @throws RemoteException 
 	 */
-	public LocGetIds() throws RemoteException 
+	public LocGetIds()
 	{
 	}
 	
-	public String[] show()
+	public String[] show() throws RemoteException 
 	{
 		System.out.println("Retrieving Location IDs");
 		// TODO Auto-generated method stub

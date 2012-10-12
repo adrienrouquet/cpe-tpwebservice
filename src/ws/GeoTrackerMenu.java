@@ -1,5 +1,6 @@
 package ws;
 
+import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -10,15 +11,24 @@ import org.eclipse.swt.widgets.*;
 
 public class GeoTrackerMenu 
 {
-	Display _display = Display.getCurrent();
+	private Display _display = Display.getCurrent();
+	private String[] _ids = null;
 	
-
-	public GeoTrackerMenu(Composite parent) 
+	public void setIds(String[] myIds)
+	{
+		_ids = myIds;
+	}
+	public String[] getIds()
+	{
+		return _ids;
+	}
+	
+	public GeoTrackerMenu(Composite parent) throws RemoteException 
 	{
 		initLayout(parent);
 	}
 	
-	public void initLayout(Composite parent)
+	public void initLayout(Composite parent) throws RemoteException
 	{
 		parent.setLayout(new GridLayout(1, false));
 		
@@ -54,18 +64,29 @@ public class GeoTrackerMenu
 	/**
 	 * Init ID
 	 * @param parent
+	 * @throws RemoteException 
 	 */
-	protected void initId(Composite parent) {
+	protected void initId(Composite parent) throws RemoteException {
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.setLayout(new GridLayout(2, true));
 		Label idLabel = new Label(parent, SWT.NONE);
 		idLabel.setText("ID: ");
 		Combo idCombo = new Combo(parent, SWT.NONE);
 		idCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		// Exemple d'utilisation
-		String[] items = {"Item1","Item2"};
-		idCombo.setItems(items);
-		idCombo.add("Item3");
+		
+		// Plug
+		LocGetIds myIds = new LocGetIds();
+		
+		setIds(myIds.show());
+		
+		for(int i = 0; i < getIds().length; i++)
+		{
+			idCombo.add(getIds()[i]);
+		}
+//		
+//		String[] items = {"Item1","Item2"};
+//		idCombo.setItems(items);
+//		idCombo.add("Item3");
 	}
 	
 	/**

@@ -18,10 +18,6 @@ public class Core {
 	 */
 	public static void main(String[] args) throws RemoteException 
 	{
-		//new LocGetIds();
-		//new LocGetLastPosition("1000000002");		
-		//new LocGetMaxSpeed("1000000002");
-		
 		Shell shell = initShell();
 		
 		new GeoTrackerMenu(shell);
