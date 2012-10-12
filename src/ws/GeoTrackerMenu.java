@@ -78,9 +78,15 @@ public class GeoTrackerMenu
 		idCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		// Plug to GUI
-		for(int i = 0; i < getIds().length; i++)
+		if (getIds() != null)
 		{
-			idCombo.add(getIds()[i]);
+			for(int i = 0; i < getIds().length; i++)
+			{
+				if (getIds()[i] != null)
+				{
+					idCombo.add(getIds()[i]);
+				}	
+			}
 		}
 	}
 	
