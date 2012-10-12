@@ -29,17 +29,9 @@ public class GeoTrackerMenu
 	
 	public GeoTrackerMenu(Composite parent) throws RemoteException 
 	{
-<<<<<<< HEAD
-		
-		
-=======
->>>>>>> branch 'master' of https://github.com/adrienrouquet/cpe-tpwebservice.git
 		LocGetIds myIds = new LocGetIds();	
 		_ids = myIds.show();
-<<<<<<< HEAD
-=======
-		
->>>>>>> branch 'master' of https://github.com/adrienrouquet/cpe-tpwebservice.git
+
 		initLayout(parent);
 	}
 	
