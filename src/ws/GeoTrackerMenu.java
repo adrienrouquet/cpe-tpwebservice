@@ -181,8 +181,6 @@ public class GeoTrackerMenu
 		}
 		
 		// Add DATA HERE !!!
-		String[] items = {"item1", "item2", "item3"};
-		this.setIds(items);
 		if (_ids != null && _ids.length > 0) {
 			for (int i = 0; i < _ids.length; i++) {
 				TableItem tabItem = new TableItem(table, SWT.BORDER);
