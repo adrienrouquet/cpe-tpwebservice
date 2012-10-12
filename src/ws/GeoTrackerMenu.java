@@ -149,17 +149,36 @@ public class GeoTrackerMenu
 		table.setHeaderVisible (true);
 		
 		String[] titles = {"No", "Latitude", "Longitude", "Speed", "Heading", "Date"};
-		for (int i=0; i<titles.length; i++) {
+		for (int i=0; i < titles.length; i++) {
 			TableColumn column = new TableColumn (table, SWT.NONE);
 			column.setText (titles [i]);
 		}
 		
+		// Add DATA HERE !!!
+		String[] items = {"item1", "item2", "item3"};
+		this.setIds(items);
+		if (_ids != null && _ids.length > 0) {
+			for (int i = 0; i < _ids.length; i++) {
+				TableItem tabItem = new TableItem(table, SWT.BORDER);
+				// No
+				tabItem.setText(0, String.valueOf(i));
+				// Latitude
+				tabItem.setText(1, "PUT_DATAS_HERE");
+				// Longitude
+				tabItem.setText(2, "PUT_DATAS_HERE");
+				//Speed
+				tabItem.setText(3, "PUT_DATAS_HERE");
+				// Heading
+				tabItem.setText(4, "PUT_DATAS_HERE");
+				// Heading
+				tabItem.setText(5, "PUT_DATAS_HERE");
+				// Date
+				tabItem.setText(6, "PUT_DATAS_HERE");
+			}
+		}
 		
-		/*
-		TableItem tabItem = new TableItem(table, SWT.BORDER_DASH);
-		String[] test = { "item1", "item2", "item3" };
-		tabItem.setText(test);
-		*/
-		
+		for (int i=0; i<titles.length; i++) {
+			table.getColumn(i).pack();
+		}
 	}
 }
