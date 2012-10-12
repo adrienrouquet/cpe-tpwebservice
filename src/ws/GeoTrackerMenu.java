@@ -1,10 +1,8 @@
 package ws;
 
 import java.rmi.RemoteException;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
@@ -62,6 +60,11 @@ public class GeoTrackerMenu
 		// Line 4: Tableau
 		Composite compTab = newLine(parent, 1);
 		_table = initTab(compTab);
+		
+		// Line 5: Browser
+		Composite compBrowser = newLine(parent, 1);
+		compBrowser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		initBrowser(compBrowser);
 	}
 	
 	/**
@@ -216,5 +219,11 @@ public class GeoTrackerMenu
 		}
 		
 		return table;
+	}
+	
+	protected void initBrowser(Composite parent) {
+		Browser browser = new Browser(parent, SWT.NONE);
+		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		browser.setUrl(ws.Core.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../../WebContent/map.html");
 	}
 }
