@@ -26,6 +26,9 @@ public class GeoTrackerMenu
 	public GeoTrackerMenu(Composite parent) throws RemoteException 
 	{
 		initLayout(parent);
+		
+		LocGetIds myIds = new LocGetIds();	
+		setIds(myIds.show());
 	}
 	
 	public void initLayout(Composite parent) throws RemoteException
@@ -74,19 +77,11 @@ public class GeoTrackerMenu
 		Combo idCombo = new Combo(parent, SWT.NONE);
 		idCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		// Plug
-		LocGetIds myIds = new LocGetIds();
-		
-		setIds(myIds.show());
-		
+		// Plug to GUI
 		for(int i = 0; i < getIds().length; i++)
 		{
 			idCombo.add(getIds()[i]);
 		}
-//		
-//		String[] items = {"Item1","Item2"};
-//		idCombo.setItems(items);
-//		idCombo.add("Item3");
 	}
 	
 	/**
