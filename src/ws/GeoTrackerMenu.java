@@ -25,6 +25,10 @@ public class GeoTrackerMenu
 	private String _selMinDate = null;
 	private String _selMaxDate = null;
 	private int _selMaxResponse = 0;
+//	if (_table.getColumnCount() != 0)
+//	{
+//		
+//	}
 	
 	public GeoTrackerMenu(Composite parent) throws RemoteException 
 	{
@@ -168,7 +172,7 @@ public class GeoTrackerMenu
 				{
 					// TODO Auto-generated catch block
 					System.out.println("Error in initValidButton" + e.getMessage());
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		});
@@ -218,11 +222,6 @@ public class GeoTrackerMenu
 	
 	private void initColumns()
 	{
-//		if (_table.getColumnCount() != 0)
-//		{
-//			
-//		}
-		
 		String[] titles = {"No", "Latitude", "Longitude", "Speed", "Heading", "Date"};
 		for (int i=0; i < titles.length; i++)
 		{
