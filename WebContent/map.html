@@ -20,110 +20,105 @@
     height: 100%;
       }
     </style>
-    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAzr2EBOXUKnm_jVnk0OJI7xSosDVG8KKPE1-m51RBrvYughuyMxQ-i1QfUnH94QxWIa6N4U6MouMmBA" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script type="text/javascript">
-    $(document).ready(function () {
 
-        var map = null;
-        var myPoints = null;
-        var bounds = null;
-        var geocoder = null;
-
-        //This function creates the google map
-        function initialize() {
-          if (GBrowserIsCompatible()) {
-            bounds = new GLatLngBounds();
-            myPoints    = [];
-            map = new GMap2(document.getElementById("map_canvas"));
-            //Testing points
-            //myPoints.push( new GLatLng(48.8566667, 2.3509871)); // Paris
-            //myPoints.push( new GLatLng(48.8123155, 2.2381535)); // Meudon
-            //myPoints.push( new GLatLng(48.3906042, -4.4869013)); // Brest
-            //myPoints.push( new GLatLng(50.6371834, 3.0630174)); // Lille
-
-          }
-        }
-
-        //This function will be called from the Java application to build the points table myPoints
-        function pushPoint(lat,lng) {
-        
-            myPoints.push( new GLatLng(lat, lng));
-        
-        }
-        
-      //This function will be called from the Java application to reset the map
-        function resetMap() {
-        
-            map.clearOverlays();
-        
-            myPoints    = null;
-                    
-            bounds      = null;
-            
-            map         = null;
-
-            initialize();
-        
-        }
-        
-        
-        
-        //This function will be called from the Java application to display the points
-        function displayPoints() {
-          
-          //The bounds have to be aware of all the points to be able to fit all of them in the window
-          for(var i = 0; i < myPoints.length; i++){
-                bounds.extend(myPoints[i]);
-          }
-                
-          
-          //Polyline
-          var polyOptions = {geodesic:true};
-          var polyline = new GPolyline(myPoints, "#000088", 2, 1, polyOptions);
-          map.addOverlay(polyline);
-          
-          extendBounds();
-          
-        }
-
-        function addThisMarker(point){
-            var marker = new GMarker(point);
-            return marker;
-        }        
-
-        //This function adjusts the zoom level, center, and fits all the points in the map
-        function extendBounds(){
-
-            var newZoom = map.getBoundsZoomLevel(bounds);
-
-            var newCentre = bounds.getCenter();
-
-            map.setCenter(newCentre, newZoom);
-            map.fitBounds(bounds);
-        
-        }
-        
-        function testPoints(){
-            pushPoint(50.6371834,3.0630174);
-            pushPoint(48.3906042,-4.4869013);
-            pushPoint(48.8566667,2.3509871);
-            pushPoint(48.8123155,-2.2381535);
-        }	
-    	
-        function initGlobal()
-        {
-        	window.initialize = initialize;
-        	window.displayPoints = displayPoints;
-        	window.pushPoint = pushPoint;
-        }
-        
-        
-        (function() {
-        	initGlobal();
-        })();
-    });
-
+		var map = null;
+		var myPoints = null;
+		var bounds = null;
+		var geocoder = null;
+		var polyline = null;
+		var mapOptions = {
+                center: new google.maps.LatLng(48.860423,2.35239),
+                mapTypeId: google.maps.MapTypeId.SATELLITE,
+                zoom: 10
+            };
+		
+		//This function creates the google map
+		function initialize() {		  
+		    bounds = new google.maps.LatLngBounds();		    
+		    myPoints    = [];
+		    map = new google.maps.Map(document.getElementById('map_canvas'),mapOptions);
+		}
+		
+			
+		//This function will be called from the Java application to build the points table myPoints
+		function pushPoint(lat,lng) {
+		    myPoints.push( new google.maps.LatLng(lat, lng));
+		}
+		
+		//This function will be called from the Java application to reset the map
+		function resetMap() {
+			document.location.reload();
+		}
+		
+		
+		
+		//This function will be called from the Java application to display the points
+		function displayPoints() {
+		  
+		  //The bounds have to be aware of all the points to be able to fit all of them in the window
+		  for(var i = 0; i < myPoints.length; i++){
+		        bounds.extend(myPoints[i]);
+		  }
+		        
+		  extendBounds();
+		  
+		  //Polyline
+		  var polyOptions = {
+                geodesic:true,
+                map: map,
+                path: myPoints,
+                strokeColor: '#000088',
+                strokeWeight: 2,
+                strokeOpacity: 1                
+          };
+		  if(polyline != null) {
+			  polyline.setMap(map);
+	          polyline.setPath(myPoints);  
+		  }
+		  else {
+			  polyline = new google.maps.Polyline(polyOptions);
+		  }
+		}
+		
+		function addThisMarker(point){
+		    var marker = new google.maps.Marker(point);
+		    return marker;
+		}        
+		
+		//This function adjusts the zoom level, center, and fits all the points in the map
+		function extendBounds(){
+			map.setCenter(bounds.getCenter());
+		    map.fitBounds(bounds);
+		}
+		
+		function testPoints(){
+		    pushPoint(50.6371834,3.0630174);
+		    pushPoint(48.3906042,-4.4869013);
+		    pushPoint(48.8566667,2.3509871);
+		    pushPoint(48.8123155,-2.2381535);
+		}	
+		
+		function testPoints2(){
+            pushPoint(40.6371834,3.0630174);
+            pushPoint(28.3906042,-14.4869013);
+            pushPoint(38.8566667,12.3509871);
+            pushPoint(68.8123155,-2.2381535);
+        }   
+		
+		function initGlobal()
+		{
+			window.initialize = initialize;
+			window.displayPoints = displayPoints;
+			window.pushPoint = pushPoint;
+		}
+		
+		//google.maps.event.addDomListener(window, 'load', initialize);
+		//google.maps.event.addDomListener(window, 'load', testPoints);
+		//google.maps.event.addDomListener(window, 'load', displayPoints);
+		
 
   </script>
     
