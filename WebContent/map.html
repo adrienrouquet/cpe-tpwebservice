@@ -36,10 +36,10 @@
 	    myPoints    = [];
 	    map = new GMap2(document.getElementById("map_canvas"));
 	    //Testing points
-	    myPoints.push( new GLatLng(48.8566667, 2.3509871)); // Paris
-	    myPoints.push( new GLatLng(48.8123155, 2.2381535)); // Meudon
-	    myPoints.push( new GLatLng(48.3906042, -4.4869013)); // Brest
-	    myPoints.push( new GLatLng(50.6371834, 3.0630174)); // Lille
+	    //myPoints.push( new GLatLng(48.8566667, 2.3509871)); // Paris
+	    //myPoints.push( new GLatLng(48.8123155, 2.2381535)); // Meudon
+	    //myPoints.push( new GLatLng(48.3906042, -4.4869013)); // Brest
+	    //myPoints.push( new GLatLng(50.6371834, 3.0630174)); // Lille
 
       }
     }
@@ -47,20 +47,22 @@
     //This function will be called from the Java application to build the points table myPoints
     function pushPoint(lat,lng) {
     
-    myPoints.push( new GLatLng(lat, lng));
+        myPoints.push( new GLatLng(lat, lng));
     
     }
     
   //This function will be called from the Java application to reset the map
     function resetMap() {
     
-    myPoints    = null;
+        map.clearOverlays();
     
-    bounds      = null;
-    
-    map         = null;
-    
-    initialize();
+        //myPoints    = null;
+                
+        //bounds      = null;
+        
+        //map         = null;
+
+        //initialize();
     
     }
     
@@ -71,7 +73,7 @@
       
       //The bounds have to be aware of all the points to be able to fit all of them in the window
       for(var i = 0; i < myPoints.length; i++){
-    bounds.extend(myPoints[i]);
+    	    bounds.extend(myPoints[i]);
       }
             
       
@@ -85,20 +87,27 @@
     }
 
     function addThisMarker(point){
-      var marker = new GMarker(point);
-      return marker;
+        var marker = new GMarker(point);
+        return marker;
     }        
 
     //This function adjusts the zoom level, center, and fits all the points in the map
     function extendBounds(){
 
-    var newZoom = map.getBoundsZoomLevel(bounds);
+        var newZoom = map.getBoundsZoomLevel(bounds);
 
-    var newCentre = bounds.getCenter();
+        var newCentre = bounds.getCenter();
 
-    map.setCenter(newCentre, newZoom);
-    map.fitBounds(bounds);
+        map.setCenter(newCentre, newZoom);
+        map.fitBounds(bounds);
     
+    }
+    
+    function testPoints(){
+        pushPoint(50.6371834,3.0630174);
+        pushPoint(48.3906042,-4.4869013);
+        pushPoint(48.8566667,2.3509871);
+        pushPoint(48.8123155,-2.2381535);
     }
 
   </script>    
@@ -107,9 +116,9 @@
     
   </head>
 
-  <body onload="initialize();displayPoints();" onunload="GUnload()">
+  <body onload="initialize();testPoints();displayPoints();resetMap();" onunload="map.GUnload();">
     
-    <div id="map_canvas" style="width: 100%; height: 50%;"></div>
+    <div id="map_canvas" style="width: 100%; height: 100%;"></div>
     
   </body>
 </html>
