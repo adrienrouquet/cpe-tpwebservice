@@ -61,9 +61,6 @@ public class GeoTrackerMenu
 		initValidButton(compValid);
 		
 		// Line 4: Tableau
-		-----------------------------------------------
-		
-		
 		Composite compTab = newLine(parent, 1);
 		
 		compTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -170,6 +167,7 @@ public class GeoTrackerMenu
 				catch (RemoteException e)
 				{
 					// TODO Auto-generated catch block
+					System.out.println("Error in initValidButton" + e.getMessage());
 					e.printStackTrace();
 				}
 			}
