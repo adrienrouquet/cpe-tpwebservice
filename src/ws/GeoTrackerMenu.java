@@ -2,7 +2,7 @@ package ws;
 
 import java.rmi.RemoteException;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
@@ -19,17 +19,14 @@ public class GeoTrackerMenu
 	private Text _minDate = null;
 	private Text _maxDate = null;
 	private Table _table = null;
+	private Browser _browser = null;
 	
 	private String[] _ids = null;
 	private String _selId = null;
 	private String _selMinDate = null;
 	private String _selMaxDate = null;
 	private int _selMaxResponse = 0;
-//	if (_table.getColumnCount() != 0)
-//	{
-//		
-//	}
-	
+
 	public GeoTrackerMenu(Composite parent) throws RemoteException 
 	{
 		_shell = parent;
@@ -66,7 +63,6 @@ public class GeoTrackerMenu
 		
 		// Line 4: Tableau
 		Composite compTab = newLine(parent, 1);
-		
 		compTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		initTab(compTab);
 		
@@ -167,6 +163,8 @@ public class GeoTrackerMenu
 				{
 					LocGetPositions myPositions = new LocGetPositions(_selId, _selMinDate, _selMaxDate, _selMaxResponse);
 					fillTable(myPositions);
+					_browser.execute("displayPoints()");
+					//_browser.execute("pushPoint(" +  + "," +  + ")");
 				}
 				catch (RemoteException e)
 				{
@@ -201,9 +199,12 @@ public class GeoTrackerMenu
 				// Heading
 				tabItem.setText(4, String.valueOf(positions.heading(i)));
 				// Date
-				tabItem.setText(5, positions.date(i));	
-			}
+				tabItem.setText(5, positions.date(i));
 				
+				// Push points into browser
+				_browser.execute("pushPoint(" + positions.latitude(i) + "," + positions.longitude(i) + ")");
+			}
+			
 			for (int j=0; j<_table.getColumnCount(); j++) 
 			{
 				_table.getColumn(j).pack();
@@ -216,6 +217,7 @@ public class GeoTrackerMenu
 		_table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		_table.setLinesVisible (true);
 		_table.setHeaderVisible (true);
+		_table.setRedraw(false);
 		
 		initColumns();
 	}
@@ -233,9 +235,21 @@ public class GeoTrackerMenu
 		}
 	}
 	
-	protected void initBrowser(Composite parent) {
-		Browser browser = new Browser(parent, SWT.NONE);
-		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		browser.setUrl(ws.Core.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../../WebContent/map.html");
+	protected void initBrowser(Composite parent) 
+	{
+		_browser = new Browser(parent, SWT.NONE);
+		_browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		_browser.setUrl(ws.Core.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../../WebContent/map.html");
+		//_browser.execute("window.initialize()");
+		
+		_browser.addProgressListener(new ProgressListener() {
+            public void changed(ProgressEvent event) {
+
+            }
+            public void completed(ProgressEvent event) {
+              _browser.execute("initialize()");
+            }
+		});
+		//*/
 	}
 }
