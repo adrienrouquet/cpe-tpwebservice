@@ -1,3 +1,8 @@
+//TP Web Service
+//Adrien Rouquet
+//Henri Lahoud
+//Loic Ortola
+//5ETI
 package ws;
 
 import java.rmi.RemoteException;
