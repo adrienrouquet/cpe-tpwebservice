@@ -24,6 +24,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script type="text/javascript">
 
+    $(document).ready(function() {
+    	
 		var map = null;
 		var myPoints = null;
 		var bounds = null;
@@ -47,13 +49,6 @@
 		function pushPoint(lat,lng) {
 		    myPoints.push( new google.maps.LatLng(lat, lng));
 		}
-		
-		//This function will be called from the Java application to reset the map
-		function resetMap() {
-			document.location.reload();
-		}
-		
-		
 		
 		//This function will be called from the Java application to display the points
 		function displayPoints() {
@@ -118,8 +113,12 @@
 		//google.maps.event.addDomListener(window, 'load', initialize);
 		//google.maps.event.addDomListener(window, 'load', testPoints);
 		//google.maps.event.addDomListener(window, 'load', displayPoints);
-		
+		(function() {
+			initGlobal();
+			initialize();
+		})();	
 
+    });
   </script>
     
     

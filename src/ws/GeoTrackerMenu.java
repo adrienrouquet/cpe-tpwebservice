@@ -159,19 +159,26 @@ public class GeoTrackerMenu
 				_selMaxDate = _maxDate.getText();
 				_selMaxResponse = _maxResponseLabel.getSelection();
 				
-				try
-				{
-					LocGetPositions myPositions = new LocGetPositions(_selId, _selMinDate, _selMaxDate, _selMaxResponse);
-					fillTable(myPositions);
-					_browser.execute("displayPoints()");
-					//_browser.execute("pushPoint(" +  + "," +  + ")");
-				}
-				catch (RemoteException e)
-				{
-					// TODO Auto-generated catch block
-					System.out.println("Error in initValidButton" + e.getMessage());
-					//e.printStackTrace();
-				}
+				_browser.refresh();
+				_browser.addProgressListener(new ProgressListener() {
+
+					@Override
+					public void completed(ProgressEvent event) {
+						try {
+							LocGetPositions myPositions = new LocGetPositions(_selId, _selMinDate, _selMaxDate, _selMaxResponse);
+							fillTable(myPositions);
+							_browser.execute("displayPoints()");
+						}
+						catch (RemoteException e)
+						{
+							System.out.println("Error in initValidButton" + e.getMessage());
+						}
+					}
+					
+					@Override
+					public void changed(ProgressEvent event) {
+					}
+				});
 			}
 		});
 	}
@@ -247,7 +254,7 @@ public class GeoTrackerMenu
 
             }
             public void completed(ProgressEvent event) {
-              _browser.execute("initialize()");
+              //_browser.execute("initialize()");
             }
 		});
 		//*/
