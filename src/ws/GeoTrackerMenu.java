@@ -247,16 +247,5 @@ public class GeoTrackerMenu
 		_browser = new Browser(parent, SWT.NONE);
 		_browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		_browser.setUrl(ws.Core.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../../WebContent/map.html");
-		//_browser.execute("window.initialize()");
-		
-		_browser.addProgressListener(new ProgressListener() {
-            public void changed(ProgressEvent event) {
-
-            }
-            public void completed(ProgressEvent event) {
-              //_browser.execute("initialize()");
-            }
-		});
-		//*/
 	}
 }

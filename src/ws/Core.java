@@ -1,7 +1,7 @@
 package ws;
 
 import org.eclipse.swt.widgets.*;
-
+import org.eclipse.swt.SWT;
 import java.rmi.RemoteException;
 
 import ws.GeoTrackerServiceStub.GetIds;
@@ -34,7 +34,9 @@ public class Core {
 		{
 			_display = Display.getCurrent();
 		}
-		return new Shell(_display);
+		Shell shell = new Shell(_display, SWT.CLOSE | SWT.MIN);
+		shell.setSize(800, 600);
+		return shell;
 	}
 	
 	protected static void runAndClose(Shell shell) {
